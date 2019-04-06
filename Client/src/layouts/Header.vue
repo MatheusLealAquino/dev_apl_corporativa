@@ -10,6 +10,7 @@
           flat
           dense
           round
+          v-if="$q.platform.is.mobile"
           @click="leftDrawerOpen = !leftDrawerOpen"
           aria-label="Menu"
         >
@@ -17,14 +18,15 @@
         </q-btn>
 
         <q-toolbar-title>
-          Quasar App
-          <div slot="subtitle">Running on Quasar v{{ $q.version }}</div>
+          Stud Freemium
+          <div slot="subtitle">v0.0.1</div>
         </q-toolbar-title>
       </q-toolbar>
     </q-layout-header>
 
     <q-layout-drawer
       v-model="leftDrawerOpen"
+      v-if="$q.platform.is.mobile"
       :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
     >
       <q-list
