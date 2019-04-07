@@ -19,7 +19,7 @@ export default {
     singular: 'Lista',
     plural: 'Listas'
   },
-  error404: 'Desculpa, nada aqui',
+  error404: 'Desculpe, nada aqui',
   back: 'Voltar',
   failed: 'Falha ao realizar operação',
   success: 'Operação realizada com sucesso'
