@@ -23,6 +23,7 @@
 
         <q-btn-group flat v-if="$q.platform.is.desktop">
           <q-btn to="/">{{ $t('menu.home') }}</q-btn>
+          <q-btn to="/">{{ $t('menu.setting') }}</q-btn>
         </q-btn-group>
       </q-toolbar>
     </q-layout-header>
@@ -74,7 +75,7 @@ export default {
   name: 'MyLayout',
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      leftDrawerOpen: false
     }
   },
   methods: {

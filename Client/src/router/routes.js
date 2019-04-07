@@ -8,11 +8,17 @@ const routes = [
     ]
   },
   {
-    path: '/find/:type',
-    name: 'find',
+    path: '/question',
     component: () => import('layouts/Header.vue'),
     children: [
-      { path: '', component: () => import('pages/Find.vue') }
+      { path: '', component: () => import('pages/Question.vue') }
+    ]
+  },
+  {
+    path: '/question/subject',
+    component: () => import('layouts/Header.vue'),
+    children: [
+      { path: '', component: () => import('pages/Subject.vue') }
     ]
   }
 ]

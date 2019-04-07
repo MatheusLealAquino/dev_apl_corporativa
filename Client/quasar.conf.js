@@ -56,7 +56,11 @@ module.exports = function (ctx) {
         'QItem',
         'QItemMain',
         'QItemSide',
-        'QBtnGroup'
+        'QBtnGroup',
+        'QSelect',
+        'QCollapsible',
+        'QCheckbox',
+        'QBtnToggle'
       ],
       directives: [
         'Ripple'
