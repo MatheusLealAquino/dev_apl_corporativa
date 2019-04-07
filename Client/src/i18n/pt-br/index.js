@@ -3,6 +3,10 @@ export default {
   menu: {
     home: 'Início'
   },
+  question: {
+    singular: 'Questão',
+    plural: 'Questões'
+  },
   proof: {
     singular: 'Prova',
     plural: 'Provas'

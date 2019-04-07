@@ -1,8 +1,8 @@
 <template>
     <div class="col-12">
-        <q-btn :to="url" :color="color" class="full-height full-width text-center">
-            {{title}}
-        </q-btn>
+      <q-btn :to="url" :color="color" class="full-height full-width text-center">
+        {{title}}
+      </q-btn>
     </div>
 </template>
 
