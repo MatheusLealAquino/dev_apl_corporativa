@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'Card',
+  name: 'ButtonCard',
   props: {
     title: String,
     url: String,
