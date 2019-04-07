@@ -2,9 +2,8 @@
   <q-layout view="lHh Lpr lFf">
     <q-layout-header>
       <q-toolbar
-        color="primary"
-        :glossy="$q.theme === 'mat'"
-        :inverted="$q.theme === 'ios'"
+        color="blue"
+        inverted
       >
         <q-btn
           flat
@@ -21,6 +20,10 @@
           Stud Freemium
           <div slot="subtitle">v0.0.1</div>
         </q-toolbar-title>
+
+        <q-btn-group flat v-if="$q.platform.is.desktop">
+          <q-btn to="/">{{ $t('menu.home') }}</q-btn>
+        </q-btn-group>
       </q-toolbar>
     </q-layout-header>
 
