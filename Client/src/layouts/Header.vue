@@ -23,7 +23,7 @@
 
         <q-btn-group flat v-if="$q.platform.is.desktop">
           <q-btn to="/">{{ $t('menu.home') }}</q-btn>
-          <q-btn to="/">{{ $t('menu.setting') }}</q-btn>
+          <q-btn to="/setting">{{ $t('menu.setting') }}</q-btn>
         </q-btn-group>
       </q-toolbar>
     </q-layout-header>
@@ -38,26 +38,13 @@
         link
         inset-delimiter
       >
-        <q-list-header>Essential Links</q-list-header>
-        <q-item @click.native="openURL('http://quasar-framework.org')">
-          <q-item-side icon="school" />
-          <q-item-main label="Docs" sublabel="quasar-framework.org" />
+        <q-item to='/'>
+          <q-item-side icon="home" />
+          <q-item-main :label="$t('menu.home')" />
         </q-item>
-        <q-item @click.native="openURL('https://github.com/quasarframework/')">
-          <q-item-side icon="code" />
-          <q-item-main label="GitHub" sublabel="github.com/quasarframework" />
-        </q-item>
-        <q-item @click.native="openURL('https://discord.gg/5TDhbDg')">
-          <q-item-side icon="chat" />
-          <q-item-main label="Discord Chat Channel" sublabel="https://discord.gg/5TDhbDg" />
-        </q-item>
-        <q-item @click.native="openURL('http://forum.quasar-framework.org')">
-          <q-item-side icon="record_voice_over" />
-          <q-item-main label="Forum" sublabel="forum.quasar-framework.org" />
-        </q-item>
-        <q-item @click.native="openURL('https://twitter.com/quasarframework')">
-          <q-item-side icon="rss feed" />
-          <q-item-main label="Twitter" sublabel="@quasarframework" />
+        <q-item to='/setting'>
+          <q-item-side icon="settings" />
+          <q-item-main :label="$t('menu.setting')" />
         </q-item>
       </q-list>
     </q-layout-drawer>

@@ -15,7 +15,7 @@
                 </q-item>
             </q-list>
         </div>
-        <div class="col-12 fixed-bottom q-mb-sm q-pl-md q-pr-md">
+        <div class="col-12 fixed-bottom q-pt-md q-mb-sm q-pl-md q-pr-md">
             <q-btn outline color="primary" class="full-width" @click="seeAnswer()">
                 {{$t('seeAnswer')}}!
             </q-btn>
