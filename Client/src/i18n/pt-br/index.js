@@ -6,6 +6,7 @@ export default {
   success: 'Operação realizada com sucesso',
   search: 'Procurar',
   begin: 'Começar',
+  seeAnswer: 'Ver Resposta',
   settings: {
     advancedSetting: 'Configurações Avançadas',
     timeForQuestion: 'Tempo por questão',
