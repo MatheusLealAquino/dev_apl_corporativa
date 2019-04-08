@@ -3,7 +3,7 @@
         <div class="col-12 text-center">
             <h4 class="caption">{{title}}</h4>
         </div>
-        <div class="col-12 text-center">
+        <div class="col-12 q-pb-md text-center">
             <q-list link v-for="option in options" v-bind:key="option.id">
                 <q-item tag="label">
                     <q-item-side>
@@ -15,9 +15,9 @@
                 </q-item>
             </q-list>
         </div>
-        <div class="col-12 fixed-bottom q-pt-md q-mb-sm q-pl-md q-pr-md">
+        <div class="col-12 q-pt-md q-mb-sm q-pl-md q-pr-md">
             <q-btn outline color="primary" class="full-width" @click="seeAnswer()">
-                {{$t('seeAnswer')}}!
+              {{$t('seeAnswer')}}!
             </q-btn>
         </div>
     </div>
