@@ -18,14 +18,17 @@
             </div>
 
             <div class="col-12 fixed-bottom q-mb-sm q-pl-md q-pr-md">
-                <q-btn outline color="primary" class="full-width" v-if="!begin" @click="getQuestions()">
-                  {{$t('begin')}}!
-                </q-btn>
+              <q-btn outline color="primary" class="full-width" v-if="!begin" @click="getQuestions()">
+                {{$t('begin')}}!
+              </q-btn>
             </div>
         </div>
 
         <div class="row q-pl-md q-pr-md" v-if="begin">
-            <QuestionCard title="Pergunta 1" :options="options"/>
+          <div class="col-12">
+            <q-pagination v-model="page" input class="justify-center" :max="17" />
+          </div>
+          <QuestionCard :title="question.title" :options="question.options"/>
         </div>
     </q-page>
 </template>
@@ -46,6 +49,7 @@ export default {
   },
   data () {
     return {
+      page: 1,
       begin: false,
       subjectSelect: [],
       listOptionsSubjects: [
@@ -58,11 +62,15 @@ export default {
           value: 'Concurso_UFF'
         }
       ],
-      options: [
-        { label: 'a) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore .', value: 'a', color: '', correct: true },
-        { label: 'b) Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum a.', value: 'b', color: '', correct: false },
-        { label: 'c) Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat .', value: 'c', color: '', correct: false }
-      ]
+      question: {
+        title: 'Pergunta 1',
+        options: [
+          { label: 'a) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore .', value: 'a', color: '', correct: true },
+          { label: 'b) Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum a.', value: 'b', color: '', correct: false },
+          { label: 'c) Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat .', value: 'c', color: '', correct: false }
+        ]
+      },
+      questions: []
     }
   },
   methods: {
@@ -77,6 +85,16 @@ export default {
   watch: {
     subjectSelect (newVal) {
       if (newVal.length === 0) this.begin = false
+    },
+    page (newVal) {
+      this.question = {
+        title: `Pergunta ${newVal}`,
+        options: [
+          { label: 'a) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore .', value: 'a', color: '', correct: true },
+          { label: 'b) Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum a.', value: 'b', color: '', correct: false },
+          { label: 'c) Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat .', value: 'c', color: '', correct: false }
+        ]
+      }
     }
   }
 }
