@@ -41,11 +41,15 @@ export default {
   created () {
   },
   methods: {
-    seeAnswer (newVal) {
-      this.options.forEach(option => {
-        if (option.correct) option.color = 'green'
-        else option.color = 'negative'
-      })
+    seeAnswer () {
+      if (this.selected) {
+        this.options.forEach(option => {
+          if (option.correct) option.color = 'green'
+          else option.color = 'negative'
+        })
+      } else {
+        this.$q.notify({ type: 'info', message: 'Selecione ao menos uma opção!', position: 'center' })
+      }
     }
   }
 }

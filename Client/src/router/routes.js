@@ -20,6 +20,13 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Subject.vue') }
     ]
+  },
+  {
+    path: '/question/tender',
+    component: () => import('layouts/Header.vue'),
+    children: [
+      { path: '', component: () => import('pages/Tender.vue') }
+    ]
   }
 ]
 
