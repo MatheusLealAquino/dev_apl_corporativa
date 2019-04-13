@@ -7,6 +7,7 @@ export default {
   search: 'Procurar',
   begin: 'Começar',
   close: 'Fechar',
+  next: 'Próxima',
   seeAnswer: 'Ver Resposta',
   settings: {
     advancedSetting: 'Configurações Avançadas',

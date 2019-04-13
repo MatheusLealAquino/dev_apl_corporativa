@@ -25,6 +25,24 @@
         </div>
 
         <div class="row q-pl-md q-pr-md" v-if="begin">
+          <div class="col-6">
+            <q-btn
+              outline
+              :label="$t('back')"
+              icon="navigate_before"
+              class="justify-center full-width"
+              color="primary"
+            />
+          </div>
+          <div class="col-6">
+            <q-btn
+              outline
+              :label="$t('next')"
+              icon-right="navigate_next"
+              class="justify-center full-width"
+              color="primary"
+            />
+          </div>
           <QuestionCard title="Pergunta 1" :options="options"/>
         </div>
     </q-page>
@@ -70,7 +88,7 @@ export default {
       if (this.subjectSelect.length === 0) {
         this.$q.notify({ type: 'negative', message: 'Selecione ao menos uma matéria!', position: 'center', closeBtn: this.$t('close') })
       } else {
-        this.$axios('question/', { subjects: this.subjectSelect })
+        // this.$axios('question/', { subjects: this.subjectSelect })
         this.begin = true
       }
     }

@@ -7,10 +7,10 @@
             <q-list link v-for="option in options" v-bind:key="option.id">
                 <q-item tag="label">
                     <q-item-side>
-                        <q-radio :color="option.color" v-model="selected" :val="option.value" />
+                      <q-radio :color="option.color" v-model="selected" :val="option.value" />
                     </q-item-side>
                     <q-item-main>
-                        <q-item-tile :color="option.color" title>{{option.label}}</q-item-tile>
+                      <q-item-tile :color="option.color" title>{{option.label}}</q-item-tile>
                     </q-item-main>
                 </q-item>
             </q-list>
@@ -48,7 +48,7 @@ export default {
           else option.color = 'negative'
         })
       } else {
-        this.$q.notify({ type: 'info', message: 'Selecione ao menos uma opção!', position: 'center' })
+        this.$q.notify({ type: 'info', message: 'Selecione ao menos uma opção!', position: 'center', closeBtn: this.$t('close') })
       }
     }
   }
