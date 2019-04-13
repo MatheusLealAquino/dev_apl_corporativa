@@ -13,8 +13,17 @@
                 />
             </div>
 
+            <div class="col-12 q-mb-md" v-if="!begin">
+              <q-select
+                color="deep-orange"
+                :float-label="`${$t('select')} ${$t('year')}`"
+                v-model="year"
+                :options="years"
+              />
+            </div>
+
             <div class="col-12" v-if="!begin">
-                <AdvancedSetting />
+              <AdvancedSetting />
             </div>
 
             <div class="col-12 fixed-bottom q-mb-sm q-pl-md q-pr-md">
@@ -52,6 +61,7 @@ export default {
       page: 1,
       begin: false,
       subjectSelect: [],
+      year: '',
       listOptionsSubjects: [
         {
           label: 'ENEM',
@@ -70,13 +80,16 @@ export default {
           { label: 'c) Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat .', value: 'c', color: '', correct: false }
         ]
       },
-      questions: []
+      questions: [],
+      years: [{ label: '2018', value: '2018' }, { label: '2017', value: '2017' }, { label: '2016', value: '2016' }]
     }
   },
   methods: {
     getQuestions () {
       if (this.subjectSelect.length === 0) {
-        this.$q.notify({ type: 'negative', message: 'Selecione ao menos uma matéria!', position: 'center' })
+        this.$q.notify({ type: 'negative', message: 'Selecione ao menos uma matéria!', position: 'center', closeBtn: this.$t('close') })
+      } else if (this.year.length === 0) {
+        this.$q.notify({ type: 'negative', message: 'Selecione um ano!', position: 'center', closeBtn: this.$t('close') })
       } else {
         this.begin = true
       }

@@ -52,6 +52,30 @@ export default {
       useTimeForProof: false,
       timeForProof: ''
     }
+  },
+  watch: {
+    useTimeForQuestion (newValue) {
+      let key = 'useTimeForQuestion'
+      this.$q.localStorage.set(key, newValue)
+    },
+    timeForQuestion (newValue) {
+      let key = 'timeForQuestion'
+      this.$q.localStorage.set(key, newValue)
+    },
+    useTimeForProof (newValue) {
+      let key = 'useTimeForProof'
+      this.$q.localStorage.set(key, newValue)
+    },
+    timeForProof (newValue) {
+      let key = 'timeForProof'
+      this.$q.localStorage.set(key, newValue)
+    }
+  },
+  mounted () {
+    this.useTimeForQuestion = this.$q.localStorage.get.item('useTimeForQuestion')
+    this.useTimeForProof = this.$q.localStorage.get.item('useTimeForProof')
+    this.timeForQuestion = this.$q.localStorage.get.item('timeForQuestion')
+    this.timeForProof = this.$q.localStorage.get.item('timeForProof')
   }
 }
 </script>

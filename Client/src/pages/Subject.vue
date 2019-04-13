@@ -2,30 +2,30 @@
     <q-page class="container padding q-pt-md">
         <div class="row q-pl-md q-pr-md">
             <div class="col-12 q-mb-md">
-                <q-select
-                    multiple
-                    chips
-                    filter
-                    color="deep-orange"
-                    :float-label="`${$t('search')} ${$t('subject.plural')}`"
-                    v-model="subjectSelect"
-                    :options="listOptionsSubjects"
-                />
+              <q-select
+                multiple
+                chips
+                filter
+                color="deep-orange"
+                :float-label="`${$t('search')} ${$t('subject.plural')}`"
+                v-model="subjectSelect"
+                :options="listOptionsSubjects"
+              />
             </div>
 
             <div class="col-12" v-if="!begin">
-                <AdvancedSetting />
+              <AdvancedSetting />
             </div>
 
             <div class="col-12 fixed-bottom q-mb-sm q-pl-md q-pr-md">
-                <q-btn outline color="primary" class="full-width" v-if="!begin" @click="getQuestions()">
-                  {{$t('begin')}}!
-                </q-btn>
+              <q-btn outline color="primary" class="full-width" v-if="!begin" @click="getQuestions()">
+                {{$t('begin')}}!
+              </q-btn>
             </div>
         </div>
 
         <div class="row q-pl-md q-pr-md" v-if="begin">
-            <QuestionCard title="Pergunta 1" :options="options"/>
+          <QuestionCard title="Pergunta 1" :options="options"/>
         </div>
     </q-page>
 </template>
@@ -68,8 +68,9 @@ export default {
   methods: {
     getQuestions () {
       if (this.subjectSelect.length === 0) {
-        this.$q.notify({ type: 'negative', message: 'Selecione ao menos uma matéria!', position: 'center' })
+        this.$q.notify({ type: 'negative', message: 'Selecione ao menos uma matéria!', position: 'center', closeBtn: this.$t('close') })
       } else {
+        this.$axios('question/', { subjects: this.subjectSelect })
         this.begin = true
       }
     }

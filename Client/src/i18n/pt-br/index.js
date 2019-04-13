@@ -6,12 +6,15 @@ export default {
   success: 'Operação realizada com sucesso',
   search: 'Procurar',
   begin: 'Começar',
+  close: 'Fechar',
   seeAnswer: 'Ver Resposta',
   settings: {
     advancedSetting: 'Configurações Avançadas',
     timeForQuestion: 'Tempo por questão',
     timeForProof: 'Tempo por prova'
   },
+  select: 'Selecionar',
+  year: 'Ano',
   menu: {
     home: 'Início',
     setting: 'Configurações'
