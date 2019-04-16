@@ -1,6 +1,5 @@
 <template>
   <q-page class="padding q-pt-md">
-
     <div class="row justify-center">
       <div class="col-sm-10 col-md-8">
         <div class="text-center">
@@ -74,9 +73,12 @@ export default {
       } else {
         this.$q.notify({ type: 'info', message: 'Selecione ao menos uma opção!', position: 'center', closeBtn: this.$t('close') })
       }
+    },
+    getTypesOfQuestion (type) {
     }
   },
   mounted () {
+    this.types = this.$route.query.type
   }
 }
 </script>
