@@ -16,9 +16,9 @@
         </q-list>
     </div>
     <div class="col-12 q-pt-md q-mb-sm q-pl-md q-pr-md">
-        <q-btn outline color="primary" class="full-width" @click="seeAnswer()">
-          {{$t('seeAnswer')}}!
-        </q-btn>
+      <q-btn outline color="primary" class="full-width" @click="seeAnswer()">
+        {{$t('seeAnswer')}}!
+      </q-btn>
     </div>
   </div>
 </template>
