@@ -2,24 +2,24 @@
   <q-page class="padding q-pt-xl">
     <div class="row justify-center">
       <div class="col-md-2 col-sm-5 q-mr-md">
-          <q-btn
-            outline
-            :label="$t('back')"
-            icon="navigate_before"
-            class="full-width"
-            color="primary"
-          />
+        <q-btn
+          outline
+          :label="$t('back')"
+          icon="navigate_before"
+          class="full-width"
+          color="primary"
+        />
       </div>
 
       <div class="col-md-2 col-sm-5">
-          <q-btn
-            outline
-            :label="$t('next')"
-            icon-right="navigate_next"
-            class="full-width"
-            color="primary"
-          />
-        </div>
+        <q-btn
+          outline
+          :label="$t('next')"
+          icon-right="navigate_next"
+          class="full-width"
+          color="primary"
+        />
+      </div>
     </div>
 
     <div class="row justify-center">

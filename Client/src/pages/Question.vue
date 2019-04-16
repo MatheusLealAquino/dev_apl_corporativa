@@ -1,8 +1,12 @@
 <template>
-    <q-page class="container">
-      <div class="row window-height">
-        <ButtonCard :title="$t('subject.plural')" url="/question/subject" color="deep-orange-6"/>
-        <ButtonCard :title="$t('tender.plural')" url="/question/tender" color="deep-orange-7"/>
+    <q-page>
+      <div class="row gutter-sm q-pt-md q-pl-md q-pr-md">
+        <div class="col-12 col-md-6">
+          <ButtonCard :title="$t('subject.plural')" url="/question/subject" color="deep-orange-6"/>
+        </div>
+        <div class="col-12 col-md-6">
+          <ButtonCard :title="$t('tender.plural')" url="/question/tender" color="deep-orange-7"/>
+        </div>
       </div>
     </q-page>
 </template>
