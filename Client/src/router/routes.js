@@ -22,17 +22,17 @@ const routes = [
     ]
   },
   {
-    path: '/question/subject/:id',
-    component: () => import('layouts/Header.vue'),
-    children: [
-      { path: '', component: () => import('pages/QuestionSubject.vue') }
-    ]
-  },
-  {
     path: '/question/tender',
     component: () => import('layouts/Header.vue'),
     children: [
       { path: '', component: () => import('pages/Tender.vue') }
+    ]
+  },
+  {
+    path: '/question/begin/:id?',
+    component: () => import('layouts/Header.vue'),
+    children: [
+      { path: '', component: () => import('pages/QuestionSubject.vue') }
     ]
   }
 ]

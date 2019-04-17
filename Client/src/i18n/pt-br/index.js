@@ -1,5 +1,8 @@
 export default {
   nameApp: 'Stud Freemium',
+  alert: {
+    chooseOption: 'Selecione ao menos uma opção!'
+  },
   error404: 'Desculpe, nada aqui',
   back: 'Voltar',
   failed: 'Falha ao realizar operação',
