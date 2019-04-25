@@ -1,6 +1,5 @@
 <template>
   <q-page class="padding q-pt-md">
-
     <div class="row justify-center">
       <div class="col-sm-10 col-md-8">
         <div class="text-center">
@@ -10,7 +9,7 @@
           <q-list link v-for="option in options" v-bind:key="option.id">
             <q-item tag="label">
               <q-item-side>
-                <q-radio :disable="answered" :color="option.color" v-model="answerSelected" :val="option.value" />
+                <q-radio :disable="answered" :color="option.color" v-model="answerSelected" :val="option.id" />
               </q-item-side>
               <q-item-main>
                 <div class="row">
@@ -18,7 +17,7 @@
                     <q-item-tile :color="option.color" title>{{option.label}}</q-item-tile>
                   </div>
                   <div class="col-md-1" v-if="option.explanation && answered">
-                    <q-btn flat icon="info"/>
+                    <q-btn flat icon="info" @click="showModalInfo(option)"/>
                   </div>
                 </div>
               </q-item-main>
@@ -31,12 +30,12 @@
     <div class="row justify-center q-pb-md">
       <!--- Back button -->
       <div class="col-sm-1 col-md-2 text-right">
-        <q-btn
+        <!--<q-btn
           outline
           flat
           icon="navigate_before"
           color="primary"
-        />
+        />-->
       </div>
       <div class="col-sm-3 col-md-4">
         <q-btn outline color="primary" class="full-width" @click="seeAnswer()">
@@ -48,12 +47,19 @@
         <q-btn
           flat
           outline
+          @click="getNext()"
           icon="navigate_next"
           color="primary"
         />
       </div>
     </div>
 
+    <q-modal v-model="showInfo" minimized ref="modalRef">
+      <div style="padding: 50px">
+        <p> {{optionSelected.explanation}} </p>
+        <q-btn color="red" @click="showInfo = !showInfo" :label="$t('close')" />
+      </div>
+    </q-modal>
   </q-page>
 </template>
 
@@ -68,13 +74,15 @@ export default {
       id: '',
       types: [],
       year: '',
+      showInfo: false,
       answered: false,
+      optionSelected: {},
       answerSelected: '',
       title: 'Pergunta 1',
       options: [
-        { label: 'a) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore .', value: 'a', color: '', correct: true, explanation: 'Acertou mizeravi!' },
-        { label: 'b) Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum a.', value: 'b', color: '', correct: false, explanation: 'Tu é burro hein...' },
-        { label: 'c) Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat .', value: 'c', color: '', correct: false, explanation: 'Passou longe dessa vez...' }
+        { id: 1, label: 'a) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore .', value: 'a', color: '', correct: true, explanation: 'Acertou mizeravi!' },
+        { id: 2, label: 'b) Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum a.', value: 'b', color: '', correct: false, explanation: 'Tu é burro hein...' },
+        { id: 3, label: 'c) Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat .', value: 'c', color: '', correct: false, explanation: 'Passou longe dessa vez...' }
       ]
     }
   },
@@ -91,11 +99,22 @@ export default {
       }
     },
     filterResponse (response) {
-      if (response.length > 1) return response
-      return [response]
+      if (response) {
+        if (response.length > 1) return response
+        return [response]
+      }
+      return []
     },
     begin () {
       if (this.id) return ''
+    },
+    showModalInfo (selected) {
+      this.showInfo = !this.showInfo
+      this.optionSelected = selected
+    },
+    async getNext () {
+      let response = await this.$axios(`/question/`, { types: this.types, year: this.year, actualQuestion: this.id })
+      console.log(response)
     }
   },
   mounted () {

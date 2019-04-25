@@ -43,7 +43,6 @@
               color="primary"
             />
           </div>
-          <QuestionCard title="Pergunta 1" :options="options"/>
         </div>
     </q-page>
 </template>
@@ -54,13 +53,11 @@
 
 <script>
 import AdvancedSetting from '../components/AdvancedSetting.vue'
-import QuestionCard from '../components/QuestionCard.vue'
 
 export default {
   name: 'PageSubject',
   components: {
-    AdvancedSetting: AdvancedSetting,
-    QuestionCard: QuestionCard
+    AdvancedSetting: AdvancedSetting
   },
   data () {
     return {

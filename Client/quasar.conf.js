@@ -65,7 +65,8 @@ module.exports = function (ctx) {
         'QItemSeparator',
         'QItemTile',
         'QRadio',
-        'QPagination'
+        'QPagination',
+        'QModal'
       ],
       directives: [
         'Ripple'

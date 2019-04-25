@@ -37,7 +37,6 @@
           <div class="col-12">
             <q-pagination v-model="page" input class="justify-center" :max="17" />
           </div>
-          <QuestionCard :title="question.title" :options="question.options"/>
         </div>
     </q-page>
 </template>
@@ -48,13 +47,11 @@
 
 <script>
 import AdvancedSetting from '../components/AdvancedSetting.vue'
-import QuestionCard from '../components/QuestionCard.vue'
 
 export default {
   name: 'PageTender',
   components: {
-    AdvancedSetting: AdvancedSetting,
-    QuestionCard: QuestionCard
+    AdvancedSetting: AdvancedSetting
   },
   data () {
     return {
