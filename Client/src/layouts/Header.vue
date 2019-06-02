@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="bg-white text-black">
+    <q-header class="bg-white text-blue">
       <q-toolbar>
         <q-btn
           flat
@@ -15,7 +15,6 @@
 
         <q-toolbar-title>
           Stud Freemium
-          <div slot="subtitle">v0.0.1</div>
         </q-toolbar-title>
 
         <q-btn-group flat v-if="$q.platform.is.desktop">
@@ -23,6 +22,7 @@
           <q-btn to="/setting">{{ $t('menu.setting') }}</q-btn>
         </q-btn-group>
       </q-toolbar>
+      <hr>
     </q-header>
 
     <q-drawer
