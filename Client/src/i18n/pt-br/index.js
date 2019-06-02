@@ -11,6 +11,8 @@ export default {
   begin: 'Começar',
   close: 'Fechar',
   next: 'Próxima',
+  explanation: 'Explicação',
+  answer: 'Responder',
   seeAnswer: 'Ver Resposta',
   settings: {
     advancedSetting: 'Configurações Avançadas',

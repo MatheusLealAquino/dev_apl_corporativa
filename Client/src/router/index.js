@@ -22,5 +22,6 @@ export default function (/* { store, ssrContext } */) {
     base: process.env.VUE_ROUTER_BASE
   })
 
+  // console.log(localStorage.getItem('access_token'))
   return Router
 }

@@ -66,11 +66,11 @@ export default {
       listOptionsSubjects: [
         {
           label: 'Desenvolvimento de Aplicações Corporativas',
-          value: 'Desenvolvimento de Aplicações Corporativas'
+          value: '1'
         },
         {
           label: 'Matemática',
-          value: 'Matemática'
+          value: '2'
         }
       ],
       options: [
@@ -85,9 +85,16 @@ export default {
       if (this.subjectSelect.length === 0) {
         this.$q.notify({ type: 'negative', message: 'Selecione ao menos uma matéria!', position: 'center', closeBtn: this.$t('close') })
       } else {
-        // this.$axios('question/', { subjects: this.subjectSelect })
+        this.$router.push({ path: `/question/begin?${this.mountQuery(this.subjectSelect)}` })
         this.begin = true
       }
+    },
+    mountQuery (arr) {
+      let response = ``
+      this.subjectSelect.forEach(obj => {
+        response += `type=${obj.value}&`
+      })
+      return response
     }
   },
   watch: {
