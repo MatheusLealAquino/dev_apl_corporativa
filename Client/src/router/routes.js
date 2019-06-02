@@ -11,28 +11,10 @@ const routes = [
     path: '/question',
     component: () => import('layouts/Header.vue'),
     children: [
-      { path: '', component: () => import('pages/Question.vue') }
-    ]
-  },
-  {
-    path: '/question/subject',
-    component: () => import('layouts/Header.vue'),
-    children: [
-      { path: '', component: () => import('pages/Subject.vue') }
-    ]
-  },
-  {
-    path: '/question/tender',
-    component: () => import('layouts/Header.vue'),
-    children: [
-      { path: '', component: () => import('pages/Tender.vue') }
-    ]
-  },
-  {
-    path: '/question/begin/:id?',
-    component: () => import('layouts/Header.vue'),
-    children: [
-      { path: '', component: () => import('pages/QuestionSubject.vue') }
+      { path: '', component: () => import('pages/Question.vue') },
+      { path: 'subject', component: () => import('pages/Subject.vue') },
+      { path: 'tender', component: () => import('pages/Tender.vue') },
+      { path: 'begin/:id?', component: () => import('pages/QuestionSubject.vue') }
     ]
   }
 ]

@@ -4,7 +4,7 @@
             <div class="col-12 q-mb-md">
                 <q-select
                     multiple
-                    chips
+                    use-chips
                     filter
                     color="deep-orange"
                     :float-label="`${$t('search')} ${$t('tender.plural')}`"
