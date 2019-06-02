@@ -1,6 +1,6 @@
 <template>
     <q-page>
-      <div class="row gutter-sm q-pt-md q-pl-md q-pr-md">
+      <div class="row q-col-gutter-sm q-pt-md q-pl-md q-pr-md">
         <div class="col-12 col-md-6">
           <ButtonCard :title="$t('subject.plural')" url="/question/subject" color="deep-orange-6"/>
         </div>

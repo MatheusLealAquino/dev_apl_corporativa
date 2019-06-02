@@ -4,8 +4,8 @@
             <div class="col-12 q-mb-md">
               <q-select
                 multiple
-                chips
                 filter
+                use-chips
                 color="deep-orange"
                 :float-label="`${$t('search')} ${$t('subject.plural')}`"
                 v-model="subjectSelect"

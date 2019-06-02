@@ -1,10 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-layout-header>
-      <q-toolbar
-        color="blue"
-        inverted
-      >
+    <q-header class="bg-white text-black">
+      <q-toolbar>
         <q-btn
           flat
           dense
@@ -26,9 +23,9 @@
           <q-btn to="/setting">{{ $t('menu.setting') }}</q-btn>
         </q-btn-group>
       </q-toolbar>
-    </q-layout-header>
+    </q-header>
 
-    <q-layout-drawer
+    <q-drawer
       v-model="leftDrawerOpen"
       v-if="$q.platform.is.mobile"
       :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
@@ -39,15 +36,19 @@
         inset-delimiter
       >
         <q-item to='/'>
-          <q-item-side icon="home" />
-          <q-item-main :label="$t('menu.home')" />
+          <q-item-section avatar>
+            <q-icon name="home" />
+          </q-item-section>
+          <q-item-section>{{$t('menu.home')}}</q-item-section>
         </q-item>
         <q-item to='/setting'>
-          <q-item-side icon="settings" />
-          <q-item-main :label="$t('menu.setting')" />
+          <q-item-section avatar>
+            <q-icon name="settings" />
+          </q-item-section>
+          <q-item-section>{{$t('menu.setting')}}</q-item-section>
         </q-item>
       </q-list>
-    </q-layout-drawer>
+    </q-drawer>
 
     <q-page-container>
       <router-view />
