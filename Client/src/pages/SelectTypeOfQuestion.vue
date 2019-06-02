@@ -2,10 +2,10 @@
     <q-page>
       <div class="row q-col-gutter-sm q-pt-md q-pl-md q-pr-md">
         <div class="col-12 col-md-6">
-          <ButtonCard :title="$t('subject.plural')" url="/question/subject" color="deep-orange-6"/>
+          <ButtonCard :title="$t('subject.plural')" url="/question/subject" color="blue-5"/>
         </div>
         <div class="col-12 col-md-6">
-          <ButtonCard :title="$t('tender.plural')" url="/question/tender" color="deep-orange-7"/>
+          <ButtonCard :title="$t('tender.plural')" url="/question/tender" color="blue-5"/>
         </div>
       </div>
     </q-page>

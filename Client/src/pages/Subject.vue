@@ -6,7 +6,7 @@
                 multiple
                 filter
                 use-chips
-                color="deep-orange"
+                color="amber-9"
                 :float-label="`${$t('search')} ${$t('subject.plural')}`"
                 v-model="subjectSelect"
                 :options="listOptionsSubjects"
