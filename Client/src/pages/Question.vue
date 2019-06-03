@@ -5,6 +5,8 @@
         <div class="text-center">
           <h4 class="caption">{{title}}</h4>
         </div>
+        {{questionIndex.new}}
+        {{questionsAnswered}}
         <div class="q-pb-md text-center">
           <q-list link v-for="option in options" v-bind:key="option.id">
             <q-item tag="label">
@@ -26,12 +28,11 @@
         </div>
       </div>
     </div>
-
     <div class="row justify-center q-pb-md">
       <!--- Back button -->
       <div class="col-sm-1 col-md-2 text-right">
         <q-btn
-          v-if="questionsAnswered.length > 1 && questionIndex.new !== 1"
+          v-if="questionsAnswered.length >= 1 && questionIndex.new !== 1"
           outline
           flat
           @click="getLast()"
@@ -102,7 +103,6 @@ export default {
       id: '',
       title: 'Pergunta 1',
       // When is associated to predeterminated list and have year
-      year: '',
       options: [
         { id: 1, label: 'a) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore .', value: 'a', color: '', correct: true, explanation: 'Acertou mizeravi!' },
         { id: 2, label: 'b) Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum a.', value: 'b', color: '', correct: false, explanation: 'Tu é burro hein...' },
@@ -125,7 +125,7 @@ export default {
             questionId: this.id,
             optionSelected: this.answerSelected
           })
-          this.questionIndex.new++
+          // this.questionIndex.new++
         }
       } else {
         // show notify message when don't have any option selected
@@ -155,11 +155,12 @@ export default {
       if (this.answerSelected) {
         this.numberQuestion++
         try {
+          this.questionIndex.new++
+
           if (this.questionsAnswered[this.questionIndex.new]) {
             // let response = this.get(this.questionsAnswered[this.questionIndex.new].questionId)
             this.answerSelected = this.questionsAnswered[this.questionIndex.new].optionSelected
             this.answered = true
-            this.questionIndex.new++
           } else {
             // let response = await this.$axios(`/question/`, { types: this.types, year: this.year, actualQuestion: this.id })
             this.answerSelected = ''
