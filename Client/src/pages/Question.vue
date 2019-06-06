@@ -1,62 +1,92 @@
 <template>
   <q-page class="padding q-pt-md">
-    <div class="row justify-center">
-      <div class="col-sm-10 col-md-8">
-        <div class="text-center">
-          <h4 class="caption">{{title}}</h4>
-        </div>
-        {{questionIndex.new}}
-        {{questionsAnswered}}
-        <div class="q-pb-md text-center">
-          <q-list link v-for="option in options" v-bind:key="option.id">
-            <q-item tag="label">
-              <q-item-section avatar>
-                <q-radio :disable="answered" :color="option.color" v-model="answerSelected" :val="option.id" />
-              </q-item-section>
-              <q-item-section>
-                <div class="row">
-                  <div class="col-md-11">
-                    <q-item-label :color="option.color" title>{{option.label}}</q-item-label>
-                  </div>
-                  <div class="col-md-1" v-if="option.explanation && answered">
-                    <q-btn flat icon="info" @click="showModalInfo(option)"/>
-                  </div>
-                </div>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </div>
-      </div>
-    </div>
-    <div class="row justify-center q-pb-md">
-      <!--- Back button -->
-      <div class="col-sm-1 col-md-2 text-right">
-        <q-btn
-          v-if="questionsAnswered.length >= 1 && questionIndex.new !== 1"
-          outline
-          flat
-          @click="getLast()"
-          icon="navigate_before"
-          color="primary"
-        />
-      </div>
-      <div class="col-sm-3 col-md-4">
-        <q-btn outline color="primary" :disable="answered" class="full-width" @click="seeAnswer()">
-          {{$t('seeAnswer')}}!
-        </q-btn>
-      </div>
-      <!-- Next button -->
-      <div class="col-sm-1 col-md-2">
-        <q-btn
-          flat
-          outline
-          @click="getNext()"
-          icon="navigate_next"
-          color="primary"
-        />
-      </div>
-    </div>
+    <div v-if="canAnswer">
+      <div class="row justify-center">
+        <div class="col-sm-10 col-md-8">
+          <div class="text-center">
+            <h4 class="caption">{{title}}</h4>
+          </div>
+          <div class="col-12 text-center q-mb-md">
+            <q-btn color="primary" label="Finalizar" flat @click="canAnswer=false"/>
 
+            <q-circular-progress
+              show-value
+              class="text-light-blue q-ma-md"
+              :value="time"
+              :max="initialTime*60"
+              size="50px"
+              color="light-blue"
+            />
+          </div>
+          <div class="q-pb-md text-center">
+            <q-list link v-for="option in options" v-bind:key="option.id">
+              <q-item tag="label">
+                <q-item-section avatar>
+                  <q-radio :disable="answered" :color="option.color" v-model="answerSelected" :val="option.id" />
+                </q-item-section>
+                <q-item-section>
+                  <div class="row">
+                    <div class="col-md-11">
+                      <q-item-label :color="option.color" title>{{option.label}}</q-item-label>
+                    </div>
+                    <div class="col-md-1" v-if="option.explanation && answered">
+                      <q-btn flat icon="info" @click="showModalInfo(option)"/>
+                    </div>
+                  </div>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-center q-pb-md">
+        <!--- Back button -->
+        <div class="col-sm-1 col-md-2 text-right">
+          <q-btn
+            v-if="questionsAnswered.length >= 1 && questionIndex.new !== 1"
+            outline
+            flat
+            @click="getLast()"
+            icon="navigate_before"
+            color="primary"
+          />
+        </div>
+        <div class="col-sm-3 col-md-4">
+          <q-btn outline color="primary" :disable="answered" class="full-width" @click="seeAnswer()">
+            {{$t('seeAnswer')}}!
+          </q-btn>
+        </div>
+        <!-- Next button -->
+        <div class="col-sm-1 col-md-2">
+          <q-btn
+            flat
+            outline
+            @click="getNext()"
+            icon="navigate_next"
+            color="primary"
+          />
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <div class="row justify-center q-pb-md">
+        <div class="col-12 text-center">
+          <h2>Prova Finalizada</h2>
+        </div>
+        <div class="col-10">
+          <q-card class="my-card">
+            <q-card-section>
+              <ul>
+                <li>Tempo de prova: <b>{{initialTime*60}}</b> minutos</li>
+                <li>Questões corretas: </li>
+                <li>Questões respondidas: </li>
+              </ul>
+            </q-card-section>
+          </q-card>
+          <q-btn color="primary" label="Finalizar" flat @click="canAnswer=false"/>
+        </div>
+      </div>
+    </div>
     <q-dialog v-model="showInfo" ref="modalRef">
       <q-card>
         <q-card-section>
@@ -83,6 +113,13 @@ export default {
   name: 'QuestionSubject',
   data () {
     return {
+      // Flag to determine when finish proof
+      canAnswer: true,
+      // Variable to keep interval
+      interval: '',
+      // Time to show
+      time: 0,
+      initialTime: 0,
       // Type of question to load
       types: [],
       // List of questions answered
@@ -139,9 +176,24 @@ export default {
       }
       return []
     },
+    calculateTime () {
+      if (this.time === 0) this.finishProof()
+      else this.time = this.time - 1
+    },
+    finishProof () {
+      clearInterval(this.interval)
+      this.canAnswer = false
+    },
     begin () {
+      if (this.$q.localStorage.getItem('useTimeForProof')) {
+        let timeSelected = this.$q.localStorage.getItem('timeForProof')
+        this.initialTime = timeSelected
+        if (timeSelected === '30') this.time = parseInt(timeSelected)
+        else this.time = parseInt(timeSelected) * 60
+        // chamar a cada 1 minuto (60000 ms)
+        this.interval = setInterval(this.calculateTime, 60000)
+      }
       this.id = '1'
-      // if (this.id) return ''
     },
     showModalInfo (selected) {
       this.showInfo = !this.showInfo
