@@ -3,13 +3,11 @@
     <div v-if="canAnswer">
       <div class="row justify-center">
         <div class="col-sm-10 col-md-8">
-          <div class="text-center">
-            <h4 class="caption">{{title}}</h4>
-          </div>
           <div class="col-12 text-center q-mb-md">
             <q-btn color="primary" label="Finalizar" flat @click="canAnswer=false"/>
 
             <q-circular-progress
+              v-if="time>0"
               show-value
               class="text-light-blue q-ma-md"
               :value="time"
@@ -17,6 +15,9 @@
               size="50px"
               color="light-blue"
             />
+          </div>
+          <div class="text-center">
+            <h4 class="caption">{{title}}</h4>
           </div>
           <div class="q-pb-md text-center">
             <q-list link v-for="option in options" v-bind:key="option.id">
@@ -40,17 +41,7 @@
         </div>
       </div>
       <div class="row justify-center q-pb-md">
-        <!--- Back button -->
-        <div class="col-sm-1 col-md-2 text-right">
-          <q-btn
-            v-if="questionsAnswered.length >= 1 && questionIndex.new !== 1"
-            outline
-            flat
-            @click="getLast()"
-            icon="navigate_before"
-            color="primary"
-          />
-        </div>
+        <div class="col-sm-1 col-md-2"></div>
         <div class="col-sm-3 col-md-4">
           <q-btn outline color="primary" :disable="answered" class="full-width" @click="seeAnswer()">
             {{$t('seeAnswer')}}!
@@ -122,6 +113,8 @@ export default {
       initialTime: 0,
       // Type of question to load
       types: [],
+      // Professor who have created the question to load
+      professors: [],
       // List of questions answered
       questionsAnswered: [],
       // Index of question in array
@@ -162,7 +155,6 @@ export default {
             questionId: this.id,
             optionSelected: this.answerSelected
           })
-          // this.questionIndex.new++
         }
       } else {
         // show notify message when don't have any option selected
@@ -207,19 +199,10 @@ export default {
       if (this.answerSelected) {
         this.numberQuestion++
         try {
+          // let response = await this.$axios(`/question/query`, { subject: this.types, professor: this.professors, year: this.year, repeated: false, limit: 10 })
+          this.answerSelected = ''
+          this.answered = false
           this.questionIndex.new++
-
-          if (this.questionsAnswered[this.questionIndex.new]) {
-            // let response = this.get(this.questionsAnswered[this.questionIndex.new].questionId)
-            this.answerSelected = this.questionsAnswered[this.questionIndex.new].optionSelected
-            this.answered = true
-          } else {
-            // let response = await this.$axios(`/question/`, { types: this.types, year: this.year, actualQuestion: this.id })
-            this.answerSelected = ''
-            this.answered = false
-          }
-
-          this.questionIndex.last = this.questionsAnswered.length > 1 ? this.questionIndex.last + 1 : 0
 
           /* this.id = response.data.id
           this.title = response.data.title
@@ -231,44 +214,18 @@ export default {
             { id: 2, label: 'b) Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum a.', value: 'b', color: '', correct: false, explanation: 'Tu é burro hein...' },
             { id: 3, label: 'c) Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat .', value: 'c', color: '', correct: false, explanation: 'Passou longe dessa vez...' }
           ]
-          if (this.answered) this.seeAnswer(true)
         } catch (err) {
         }
       } else {
         // show notify message when don't have any option selected
         this.$q.notify({ type: 'info', message: this.$t('alert.chooseOption'), position: 'center', closeBtn: this.$t('close') })
       }
-    },
-    async getLast () {
-      try {
-        if (this.numberQuestion >= 1) this.numberQuestion--
-        else this.numberQuestion = 1
-        // const questionId = this.questionsAnswered[this.questionIndex.last].questionId
-        // let response = this.get(questionId)
-
-        /* this.id = response.data.id
-        this.title = response.data.title
-        this.options = response.data.options */
-        this.id = `${this.questionIndex.last}`
-        this.title = `Pergunta ${this.numberQuestion}`
-        this.options = [
-          { id: 1, label: 'a) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore .', value: 'a', color: '', correct: true, explanation: 'Acertou mizeravi!' },
-          { id: 2, label: 'b) Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum a.', value: 'b', color: '', correct: false, explanation: 'Tu é burro hein...' },
-          { id: 3, label: 'c) Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat .', value: 'c', color: '', correct: false, explanation: 'Passou longe dessa vez...' }
-        ]
-
-        this.answerSelected = this.questionsAnswered[this.questionIndex.last].optionSelected
-        this.answered = true
-        this.seeAnswer(true)
-        this.questionIndex.new = this.questionIndex.last + 1
-        this.questionIndex.last = this.questionIndex.last === 0 ? 0 : this.questionIndex.last - 1
-      } catch (err) {
-      }
     }
   },
   mounted () {
     this.id = this.$route.params.id
     this.types = this.filterResponse(this.$route.query.type)
+    this.professors = this.filterResponse(this.$route.query.professor)
     this.year = this.$route.query.year
 
     this.begin()
