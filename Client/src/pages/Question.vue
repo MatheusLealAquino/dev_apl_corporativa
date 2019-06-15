@@ -68,7 +68,8 @@
           <q-card class="my-card">
             <q-card-section>
               <ul>
-                <li>Tempo de prova: <b>{{initialTime}}</b> minutos</li>
+                <li v-if="usingTimeForProof">Tempo de prova: <b>{{initialTime/60}}</b> minutos</li>
+                <li v-if="usingTimeForQuestion">Tempo de cada questão: <b>{{initialTime/60}}</b> minutos</li>
                 <li>Questões corretas: </li>
                 <li>Questões respondidas: </li>
               </ul>
