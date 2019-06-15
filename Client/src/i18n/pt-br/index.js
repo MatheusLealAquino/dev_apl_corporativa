@@ -1,7 +1,8 @@
 export default {
   nameApp: 'Stud Freemium',
   alert: {
-    chooseOption: 'Selecione ao menos uma opção!'
+    chooseOption: 'Selecione ao menos uma opção!',
+    cantGetQuestion: 'Não foi possível encontar uma nova questão!'
   },
   error404: 'Desculpe, nada aqui',
   back: 'Voltar',

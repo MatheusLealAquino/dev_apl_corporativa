@@ -7,11 +7,11 @@
             <q-btn color="primary" label="Finalizar" flat @click="canAnswer=false"/>
 
             <q-circular-progress
-              v-if="time>0"
+              v-if="time>0 || timeForQuestion>0"
               show-value
               class="text-light-blue q-ma-md"
-              :value="time"
-              :max="initialTime*60"
+              :value="time == 0 ? timeForQuestion : time"
+              :max="initialTime"
               size="50px"
               color="light-blue"
             />
@@ -68,7 +68,7 @@
           <q-card class="my-card">
             <q-card-section>
               <ul>
-                <li>Tempo de prova: <b>{{initialTime*60}}</b> minutos</li>
+                <li>Tempo de prova: <b>{{initialTime}}</b> minutos</li>
                 <li>Questões corretas: </li>
                 <li>Questões respondidas: </li>
               </ul>
@@ -109,8 +109,12 @@ export default {
       // Variable to keep interval
       interval: '',
       // Time to show
+      usingTimeForProof: false,
       time: 0,
       initialTime: 0,
+      // Time for question
+      usingTimeForQuestion: false,
+      timeForQuestion: 0,
       // Type of question to load
       types: [],
       // Professor who have created the question to load
@@ -168,9 +172,19 @@ export default {
       }
       return []
     },
-    calculateTime () {
+    decrementTimeProof () {
       if (this.time === 0) this.finishProof()
-      else this.time = this.time - 1
+      else this.time--
+    },
+    decrementTimeQuestion () {
+      if (this.timeForQuestion === 0) {
+        // this.seeAnswer()
+        this.timeForQuestion = this.initialTime
+        this.getNext()
+      } else this.timeForQuestion--
+    },
+    incrementTime () {
+      this.initialTime++
     },
     finishProof () {
       clearInterval(this.interval)
@@ -178,12 +192,25 @@ export default {
     },
     begin () {
       if (this.$q.localStorage.getItem('useTimeForProof')) {
-        let timeSelected = this.$q.localStorage.getItem('timeForProof')
-        this.initialTime = timeSelected
-        if (timeSelected === '30') this.time = parseInt(timeSelected)
-        else this.time = parseInt(timeSelected) * 60
+        this.usingTimeForProof = true
+        let timeSelected = parseInt(this.$q.localStorage.getItem('timeForProof'))
+        if (timeSelected === '30') {
+          this.time = timeSelected
+          this.initialTime = 30
+        } else {
+          this.time = timeSelected * 60
+          this.initialTime = timeSelected * 60
+        }
         // chamar a cada 1 minuto (60000 ms)
-        this.interval = setInterval(this.calculateTime, 60000)
+        this.interval = setInterval(this.decrementTimeProof, 60000)
+      } else if (this.$q.localStorage.getItem('useTimeForQuestion')) {
+        this.usingTimeForQuestion = true
+        let timeSelected = parseInt(this.$q.localStorage.getItem('timeForQuestion'))
+        timeSelected = timeSelected * 60
+        this.initialTime = timeSelected
+        this.timeForQuestion = timeSelected
+        // chamar a cada 1 segundo (10000 ms)
+        this.interval = setInterval(this.decrementTimeQuestion, 1000)
       }
       this.id = '1'
     },
@@ -196,29 +223,28 @@ export default {
       return response
     },
     async getNext () {
-      if (this.answerSelected) {
-        this.numberQuestion++
-        try {
-          // let response = await this.$axios(`/question/query`, { subject: this.types, professor: this.professors, year: this.year, repeated: false, limit: 10 })
-          this.answerSelected = ''
-          this.answered = false
-          this.questionIndex.new++
+      this.numberQuestion++
+      try {
+        // let response = await this.$axios(`/question/query`, { subject: this.types, professor: this.professors, year: this.year, repeated: false, limit: 10 })
+        this.answerSelected = ''
+        this.answered = false
+        this.questionIndex.new++
 
-          /* this.id = response.data.id
-          this.title = response.data.title
-          this.options = response.data.options */
-          this.id = `${this.numberQuestion}`
-          this.title = `Pergunta ${this.questionIndex.new}`
-          this.options = [
-            { id: 1, label: 'a) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore .', value: 'a', color: '', correct: true, explanation: 'Acertou mizeravi!' },
-            { id: 2, label: 'b) Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum a.', value: 'b', color: '', correct: false, explanation: 'Tu é burro hein...' },
-            { id: 3, label: 'c) Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat .', value: 'c', color: '', correct: false, explanation: 'Passou longe dessa vez...' }
-          ]
-        } catch (err) {
-        }
-      } else {
-        // show notify message when don't have any option selected
-        this.$q.notify({ type: 'info', message: this.$t('alert.chooseOption'), position: 'center', closeBtn: this.$t('close') })
+        /* this.id = response.data.id
+        this.title = response.data.title
+        this.options = response.data.options */
+        this.id = `${this.numberQuestion}`
+        this.title = `Pergunta ${this.questionIndex.new}`
+        this.options = [
+          { id: 1, label: 'a) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore .', value: 'a', color: '', correct: true, explanation: 'Acertou mizeravi!' },
+          { id: 2, label: 'b) Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum a.', value: 'b', color: '', correct: false, explanation: 'Tu é burro hein...' },
+          { id: 3, label: 'c) Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat .', value: 'c', color: '', correct: false, explanation: 'Passou longe dessa vez...' }
+        ]
+      } catch (err) {
+        console.error(err)
+        // show notify message when can't get next question
+        this.$q.notify({ type: 'info', message: this.$t('alert.cantGetQuestion'), position: 'center', closeBtn: this.$t('close') })
+        this.finishProof()
       }
     }
   },
