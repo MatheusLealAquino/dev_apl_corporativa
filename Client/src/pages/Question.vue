@@ -103,6 +103,8 @@
 </style>
 
 <script>
+import { AnswersService, QuestionsService } from '../resource'
+
 export default {
   name: 'QuestionSubject',
   data () {
@@ -225,27 +227,34 @@ export default {
       this.optionSelected = selected
     },
     async get (questionId) {
-      let response = await this.$axios(`/question/${questionId}`)
+      let response = await QuestionsService.fetch(questionId)
       return response
     },
     async getNext () {
+      if (this.answerSelected) {
+        AnswersService.create('', {
+          'optionExternalId': this.answerSelected,
+          'customUserId': 0,
+          'questionId': this.id
+        })
+      }
       this.numberQuestion++
       try {
-        // let response = await this.$axios(`/question/query`, { subject: this.types, professor: this.professors, year: this.year, repeated: false, limit: 10 })
+        let response = await QuestionsService.fetch('query', {
+          subject: this.types,
+          professor: this.professors,
+          year: this.year,
+          repeated: false,
+          limit: 1
+        })
+
         this.answerSelected = ''
         this.answered = false
         this.questionIndex.new++
 
-        /* this.id = response.data.id
+        this.id = response.data.id
         this.title = response.data.title
-        this.options = response.data.options */
-        this.id = `${this.numberQuestion}`
-        this.title = `Pergunta ${this.questionIndex.new}`
-        this.options = [
-          { id: 1, label: 'a) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore .', value: 'a', color: '', correct: true, explanation: 'Acertou mizeravi!' },
-          { id: 2, label: 'b) Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum a.', value: 'b', color: '', correct: false, explanation: 'Tu é burro hein...' },
-          { id: 3, label: 'c) Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat .', value: 'c', color: '', correct: false, explanation: 'Passou longe dessa vez...' }
-        ]
+        this.options = response.data.options
       } catch (err) {
         console.error(err)
         // show notify message when can't get next question
