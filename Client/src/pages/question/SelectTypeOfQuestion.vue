@@ -18,7 +18,7 @@
 </style>
 
 <script>
-import ButtonCard from '../components/ButtonCard.vue'
+import ButtonCard from '../../components/ButtonCard.vue'
 
 export default {
   name: 'PageFind',

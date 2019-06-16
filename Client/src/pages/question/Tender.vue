@@ -46,7 +46,7 @@
 </style>
 
 <script>
-import AdvancedSetting from '../components/AdvancedSetting.vue'
+import AdvancedSetting from '../../components/AdvancedSetting.vue'
 
 export default {
   name: 'PageTender',
