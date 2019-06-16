@@ -69,13 +69,15 @@
             <q-card-section>
               <ul>
                 <li v-if="usingTimeForProof">Tempo de prova: <b>{{initialTime/60}}</b> minutos</li>
-                <li v-if="usingTimeForQuestion">Tempo de cada questão: <b>{{initialTime/60}}</b> minutos</li>
+                <li v-if="usingTimeForQuestion">Tempo de cada questão: <b>{{initialTime/60}}</b> minuto(s)</li>
                 <li>Questões corretas: </li>
                 <li>Questões respondidas: </li>
               </ul>
             </q-card-section>
           </q-card>
-          <q-btn color="primary" label="Finalizar" flat @click="canAnswer=false"/>
+          <div class="text-center q-mt-sm">
+            <q-btn color="primary" :label="$t('back')" flat to="/question"/>
+          </div>
         </div>
       </div>
     </div>
