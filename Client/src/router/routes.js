@@ -11,10 +11,10 @@ const routes = [
     path: '/question',
     component: () => import('layouts/Header.vue'),
     children: [
-      { path: '', component: () => import('pages/SelectTypeOfQuestion.vue') },
-      { path: 'subject', component: () => import('pages/Subject.vue') },
-      { path: 'tender', component: () => import('pages/Tender.vue') },
-      { path: 'begin/:id?', component: () => import('pages/Question.vue') }
+      { path: '', component: () => import('pages/question/SelectTypeOfQuestion.vue') },
+      { path: 'subject', component: () => import('pages/question/Subject.vue') },
+      { path: 'tender', component: () => import('pages/question/Tender.vue') },
+      { path: 'begin/:id?', component: () => import('pages/question/Question.vue') }
     ]
   }
 ]
