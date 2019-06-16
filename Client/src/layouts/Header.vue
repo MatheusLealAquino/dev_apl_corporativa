@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="bg-white text-black">
+    <q-header class="bg-white text-blue">
       <q-toolbar>
         <q-btn
           flat
@@ -15,13 +15,14 @@
 
         <q-toolbar-title>
           Stud Freemium
-          <div slot="subtitle">v0.0.1</div>
         </q-toolbar-title>
 
         <q-btn-group flat v-if="$q.platform.is.desktop">
           <q-btn to="/">{{ $t('menu.home') }}</q-btn>
+          <q-btn to="/setting">{{ $t('menu.setting') }}</q-btn>
         </q-btn-group>
       </q-toolbar>
+      <hr>
     </q-header>
 
     <q-drawer
@@ -34,36 +35,17 @@
         link
         inset-delimiter
       >
-        <q-item-label header>Essential Links</q-item-label>
-        <q-item @click.native="openURL('http://quasar-framework.org')">
+        <q-item to='/'>
           <q-item-section avatar>
-            <q-icon name="bluetooth" />
+            <q-icon name="home" />
           </q-item-section>
-          <q-item-section>Icon as avatar</q-item-section>
+          <q-item-section>{{$t('menu.home')}}</q-item-section>
         </q-item>
-        <q-item @click.native="openURL('http://quasar-framework.org')">
+        <q-item to='/setting'>
           <q-item-section avatar>
-            <q-icon name="bluetooth" />
+            <q-icon name="settings" />
           </q-item-section>
-          <q-item-section>Icon as avatar</q-item-section>
-        </q-item>
-        <q-item @click.native="openURL('http://quasar-framework.org')">
-          <q-item-section avatar>
-            <q-icon name="bluetooth" />
-          </q-item-section>
-          <q-item-section>Icon as avatar</q-item-section>
-        </q-item>
-        <q-item @click.native="openURL('http://quasar-framework.org')">
-          <q-item-section avatar>
-            <q-icon name="bluetooth" />
-          </q-item-section>
-          <q-item-section>Icon as avatar</q-item-section>
-        </q-item>
-        <q-item @click.native="openURL('http://quasar-framework.org')">
-          <q-item-section avatar>
-            <q-icon name="bluetooth" />
-          </q-item-section>
-          <q-item-section>Icon as avatar</q-item-section>
+          <q-item-section>{{$t('menu.setting')}}</q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
@@ -78,10 +60,10 @@
 import { openURL } from 'quasar'
 
 export default {
-  name: 'MyLayout',
+  name: 'Header',
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      leftDrawerOpen: false
     }
   },
   methods: {
