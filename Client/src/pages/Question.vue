@@ -70,8 +70,8 @@
               <ul>
                 <li v-if="usingTimeForProof">Tempo de prova: <b>{{initialTime/60}}</b> minutos</li>
                 <li v-if="usingTimeForQuestion">Tempo de cada questão: <b>{{initialTime/60}}</b> minuto(s)</li>
-                <li>Questões corretas: </li>
-                <li>Questões respondidas: </li>
+                <li>Questões corretas: {{questionsCorrect}}</li>
+                <li>Questões respondidas: {{questionsAnswered.length}}</li>
               </ul>
             </q-card-section>
           </q-card>
@@ -124,6 +124,7 @@ export default {
       professors: [],
       // List of questions answered
       questionsAnswered: [],
+      questionsCorrect: 0,
       // Index of question in array
       questionIndex: { last: 0, new: 1 },
       // Flag to determine when show or don't show dialog(modal)
@@ -148,21 +149,23 @@ export default {
     }
   },
   methods: {
-    seeAnswer (load = false) {
+    seeAnswer () {
       if (this.answerSelected) {
         this.options.forEach(option => {
-          if (option.correct) option.color = 'green'
-          else option.color = 'negative'
+          if (option.correct) {
+            option.color = 'green'
+            if (option.id === this.answerSelected) this.questionsCorrect++
+          } else {
+            option.color = 'negative'
+          }
         })
         this.answered = true
 
-        if (!load) {
-          // set question to array to make list of questions
-          this.questionsAnswered.push({
-            questionId: this.id,
-            optionSelected: this.answerSelected
-          })
-        }
+        // set question to array to make list of questions
+        this.questionsAnswered.push({
+          questionId: this.id,
+          optionSelected: this.answerSelected
+        })
       } else {
         // show notify message when don't have any option selected
         this.$q.notify({ type: 'info', message: this.$t('alert.chooseOption'), position: 'center', closeBtn: this.$t('close') })
