@@ -19,7 +19,14 @@
 
         <q-btn-group flat v-if="$q.platform.is.desktop">
           <q-btn to="/">{{ $t('menu.home') }}</q-btn>
-          <q-btn to="/setting">{{ $t('menu.setting') }}</q-btn>
+          <div v-if="userIsLogged">
+            <q-btn to="/setting" flat>{{ $t('menu.setting') }}</q-btn>
+            <q-btn to="/logout" flat>{{ $t('menu.logout') }}</q-btn>
+          </div>
+          <div v-if="!userIsLogged">
+            <q-btn to="/signIn" flat>{{ $t('menu.signIn') }}</q-btn>
+            <q-btn to="/signUp" flat>{{ $t('menu.signUp') }}</q-btn>
+          </div>
         </q-btn-group>
       </q-toolbar>
       <hr>
@@ -66,8 +73,15 @@ export default {
       leftDrawerOpen: false
     }
   },
+  computed: {
+    userIsLogged () {
+      return this.$store.getters['user/isLogged']
+    }
+  },
   methods: {
     openURL
+  },
+  mounted () {
   }
 }
 </script>

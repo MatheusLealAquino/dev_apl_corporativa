@@ -24,7 +24,10 @@ export default {
   year: 'Ano',
   menu: {
     home: 'Início',
-    setting: 'Configurações'
+    setting: 'Configurações',
+    logout: 'Sair',
+    signIn: 'Login',
+    signUp: 'Cadastre-se'
   },
   question: {
     singular: 'Questão',
