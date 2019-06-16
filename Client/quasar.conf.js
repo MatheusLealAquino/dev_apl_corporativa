@@ -53,16 +53,30 @@ module.exports = function (ctx) {
         'QIcon',
         'QList',
         'QItem',
+        'QBtnGroup',
+        'QSelect',
+        'QCheckbox',
+        'QBtnToggle',
+        'QOptionGroup',
+        'QRadio',
+        'QPagination',
         'QItemSection',
         'QItemLabel',
-        'QBtnGroup'
+        'QBtnGroup',
+        'QExpansionItem',
+        'QDialog',
+        'QCard',
+        'QCardSection',
+        'QCardActions',
+        'QCircularProgress'
       ],
       directives: [
-        'Ripple'
+        'ClosePopup'
       ],
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify',
+        'LocalStorage'
       ]
       // iconSet: 'ionicons-v4'
       // lang: 'de' // Quasar language
