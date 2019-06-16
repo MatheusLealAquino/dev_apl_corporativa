@@ -19,13 +19,13 @@
 
         <q-btn-group flat v-if="$q.platform.is.desktop">
           <q-btn to="/">{{ $t('menu.home') }}</q-btn>
-          <div v-if="userIsLogged">
+          <div v-if="userLogged">
             <q-btn to="/setting" flat>{{ $t('menu.setting') }}</q-btn>
-            <q-btn to="/logout" flat>{{ $t('menu.logout') }}</q-btn>
+            <q-btn flat @click="makeLogout">{{ $t('menu.logout') }}</q-btn>
           </div>
-          <div v-if="!userIsLogged">
-            <q-btn to="/signIn" flat>{{ $t('menu.signIn') }}</q-btn>
-            <q-btn to="/signUp" flat>{{ $t('menu.signUp') }}</q-btn>
+          <div v-if="!userLogged">
+            <q-btn to="/auth/signIn" flat>{{ $t('menu.signIn') }}</q-btn>
+            <q-btn to="/auth/signUp" flat>{{ $t('menu.signUp') }}</q-btn>
           </div>
         </q-btn-group>
       </q-toolbar>
@@ -70,16 +70,30 @@ export default {
   name: 'Header',
   data () {
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen: false,
+      finishRequest: false
     }
   },
   computed: {
-    userIsLogged () {
-      return this.$store.getters['user/isLogged']
+    userLogged: {
+      get () {
+        return this.$store.getters['user/isLogged']
+      }
     }
   },
   methods: {
-    openURL
+    openURL,
+    makeLogout () {
+      this.finishRequest = false
+      this.$store.dispatch('user/logout')
+      this.$q.notify({
+        color: 'green-4',
+        textColor: 'white',
+        icon: 'fas fa-check-circle',
+        message: this.$t('auth.logoutDone')
+      })
+      this.finishRequest = true
+    }
   },
   mounted () {
   }

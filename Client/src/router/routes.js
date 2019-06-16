@@ -8,8 +8,17 @@ const routes = [
     ]
   },
   {
+    path: '/auth',
+    component: () => import('layouts/Header.vue'),
+    children: [
+      { path: 'signIn', component: () => import('pages/auth/SignIn.vue') },
+      { path: 'signUp', component: () => import('pages/auth/SignUp.vue') }
+    ]
+  },
+  {
     path: '/question',
     component: () => import('layouts/Header.vue'),
+    meta: { requiresAuth: true },
     children: [
       { path: '', component: () => import('pages/question/SelectTypeOfQuestion.vue') },
       { path: 'subject', component: () => import('pages/question/Subject.vue') },

@@ -3,12 +3,18 @@
     <q-expansion-item :label="$t('settings.advancedSetting')">
       <div class="row">
         <div class="col-12 q-mb-md">
-          <q-checkbox v-model="useTimeForQuestion" color="yellow-7" :label="$t('settings.timeForQuestion')"/>
+          <q-checkbox
+            v-model="useTimeForQuestion"
+            :disable="useTimeForProof"
+            color="yellow-7"
+            :label="$t('settings.timeForQuestion')"
+          />
           <br/>
           <q-btn-toggle
             class="q-mt-md"
             v-model="timeForQuestion"
             toggle-color="yellow-7"
+            :disable="useTimeForProof"
             v-if="useTimeForQuestion"
             :options="[
                 {label: '1 min.', value: '1'},
@@ -19,13 +25,19 @@
           />
         </div>
         <div class="col-12 q-mb-md">
-          <q-checkbox v-model="useTimeForProof" color="yellow-7" :label="$t('settings.timeForProof')"/>
+          <q-checkbox
+            v-model="useTimeForProof"
+            color="yellow-7"
+            :label="$t('settings.timeForProof')"
+            :disable="useTimeForQuestion"
+          />
           <br/>
           <q-btn-toggle
             class="q-mt-md"
             v-model="timeForProof"
             toggle-color="yellow-7"
             v-if="useTimeForProof"
+            :disable="useTimeForQuestion"
             :options="[
               {label: '30 min', value: '30'},
               {label: '1 hr', value: '1'},

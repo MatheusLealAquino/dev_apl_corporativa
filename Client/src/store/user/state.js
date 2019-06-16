@@ -1,5 +1,5 @@
 export default {
-  id: '',
-  email: '',
-  token: ''
+  id: null,
+  email: null,
+  token: null
 }
