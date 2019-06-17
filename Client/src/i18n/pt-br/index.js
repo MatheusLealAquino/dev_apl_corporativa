@@ -12,8 +12,11 @@ export default {
   begin: 'Começar',
   close: 'Fechar',
   next: 'Próxima',
+  loading: 'Carregando...',
   explanation: 'Explicação',
   answer: 'Responder',
+  submit: 'Enviar',
+  reset: 'Resetar',
   seeAnswer: 'Ver Resposta',
   settings: {
     advancedSetting: 'Configurações Avançadas',
@@ -24,7 +27,21 @@ export default {
   year: 'Ano',
   menu: {
     home: 'Início',
-    setting: 'Configurações'
+    setting: 'Configurações',
+    logout: 'Sair',
+    signIn: 'Login',
+    signUp: 'Cadastre-se'
+  },
+  auth: {
+    labelName: 'Seu Nome *',
+    labelEmail: 'Seu Email *',
+    labelPassword: 'Sua Senha *',
+    typeSomething: 'Por favor, digite algo',
+    messageSuccessSignUp: 'Cadastro realizado com sucesso!',
+    messageFailSignUp: 'Cadastro não foi realizado!',
+    messageSuccessSignIn: 'Login realizado com sucesso!',
+    messageFailSignIn: 'Login não foi realizado!',
+    logoutDone: 'Logout realizado com sucesso!'
   },
   question: {
     singular: 'Questão',

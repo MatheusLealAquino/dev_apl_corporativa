@@ -103,7 +103,7 @@
 </style>
 
 <script>
-import { AnswersService, QuestionsService } from '../resource'
+import { AnswersService, QuestionsService } from '../../resource'
 
 export default {
   name: 'QuestionSubject',
