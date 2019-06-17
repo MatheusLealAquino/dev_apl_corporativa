@@ -29,7 +29,6 @@
           </div>
         </q-btn-group>
       </q-toolbar>
-      <hr>
     </q-header>
 
     <q-drawer
@@ -58,6 +57,7 @@
     </q-drawer>
 
     <q-page-container>
+      <hr>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -95,7 +95,13 @@ export default {
       this.finishRequest = true
     }
   },
-  mounted () {
+  watch: {
+    userLogged (newVal) {
+      if (!newVal && this.finishRequest) this.$router.push('/')
+    },
+    finishRequest (newVal) {
+      if (newVal && !this.userLogged) this.$router.push('/')
+    }
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <q-page>
     <div class="row q-pa-md justify-center">
       <div class="col-12 col-sm-12 text-center">
-        <h4>Realizar Login</h4>
+        <h4>Cadastrar Questão</h4>
       </div>
       <div class="col-sm-12 col-12">
         <q-form
@@ -11,9 +11,9 @@
           class="q-gutter-md"
         >
           <q-input
-              v-model="email"
-              type="email"
-              :label="$t('auth.labelEmail')"
+              v-model="title"
+              type="text"
+              :label="$t('createQuestion.labelTitle')"
               lazy-rules
               :rules="[
                 val => val !== null && val !== '' || $t('auth.typeSomething')
@@ -21,13 +21,9 @@
             />
 
             <q-input
-              v-model="password"
-              type="password"
-              :label="$t('auth.labelPassword')"
-              lazy-rules
-              :rules="[
-                val => val !== null && val !== '' || $t('auth.typeSomething')
-              ]"
+              v-model="subTitle"
+              type="text"
+              :label="$t('createQuestion.labelSubtitle')"
             />
 
           <div>
@@ -41,16 +37,20 @@
 </template>
 
 <style>
+
 </style>
 
 <script>
+import { QuestionsService } from '../../resource'
+
 export default {
-  name: 'SignIn',
+  name: 'CreateQuestion',
   data () {
     return {
-      email: null,
-      password: null,
-      finishRequest: false
+      title: null,
+      subTitle: null,
+      correctOption: null,
+      options: []
     }
   },
   computed: {
@@ -62,19 +62,19 @@ export default {
   },
   methods: {
     async onSubmit () {
-      this.finishRequest = false
       const dismiss = this.$q.notify({
         color: 'info',
         textColor: 'white',
         icon: 'fas fa-check-circle',
         message: this.$t('loading')
       })
-      // make login the user
-      let response = await this.$store.dispatch('user/login', {
-        email: this.email,
-        password: this.password
-      })
-      if (response) {
+      try {
+        // Create the question
+        await QuestionsService.create('', {
+          fullQuestion: {
+
+          }
+        })
         dismiss()
         this.$q.notify({
           color: 'green-4',
@@ -82,7 +82,7 @@ export default {
           icon: 'fas fa-check-circle',
           message: this.$t('auth.messageSuccessSignIn')
         })
-      } else {
+      } catch (err) {
         dismiss()
         this.$q.notify({
           color: 'red-5',
@@ -91,20 +91,12 @@ export default {
           message: `${this.$t('auth.messageFailSignIn')}`
         })
       }
-      this.finishRequest = true
     },
     onReset () {
-      this.email = null
-      this.password = null
-      this.finishRequest = false
-    }
-  },
-  watch: {
-    alreadyLogged (newVal) {
-      if (newVal && this.finishRequest) this.$router.push('/')
-    },
-    finishRequest (newVal) {
-      if (newVal && this.alreadyLogged) this.$router.push('/')
+      this.title = null
+      this.subTitle = null
+      this.correctOption = null
+      this.options = []
     }
   }
 }

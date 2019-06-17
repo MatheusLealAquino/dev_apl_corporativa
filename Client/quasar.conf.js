@@ -70,7 +70,8 @@ module.exports = function (ctx) {
         'QCardActions',
         'QCircularProgress',
         'QForm',
-        'QInput'
+        'QInput',
+        'QBanner'
       ],
       directives: [
         'ClosePopup'

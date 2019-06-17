@@ -30,7 +30,8 @@ export default {
     setting: 'Configurações',
     logout: 'Sair',
     signIn: 'Login',
-    signUp: 'Cadastre-se'
+    signUp: 'Cadastre-se',
+    create: 'Criar questão'
   },
   auth: {
     labelName: 'Seu Nome *',
@@ -43,9 +44,14 @@ export default {
     messageFailSignIn: 'Login não foi realizado!',
     logoutDone: 'Logout realizado com sucesso!'
   },
+  createQuestion: {
+    labelTitle: 'Digite o título da questão *',
+    labelSubtitle: 'Digite sobre a pergunta'
+  },
   question: {
     singular: 'Questão',
-    plural: 'Questões'
+    plural: 'Questões',
+    create: 'Criar Questão'
   },
   tender: {
     singular: 'Concurso',
