@@ -53,6 +53,7 @@
 
 <script>
 import AdvancedSetting from '../../components/AdvancedSetting.vue'
+import { SubjectsService } from '../../resource'
 
 export default {
   name: 'PageSubject',
@@ -63,21 +64,7 @@ export default {
     return {
       begin: false,
       subjectSelect: [],
-      listOptionsSubjects: [
-        {
-          label: 'Desenvolvimento de Aplicações Corporativas',
-          value: '1'
-        },
-        {
-          label: 'Matemática',
-          value: '2'
-        }
-      ],
-      options: [
-        { label: 'a) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore .', value: 'a', color: '', correct: true },
-        { label: 'b) Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum a.', value: 'b', color: '', correct: false },
-        { label: 'c) Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat .', value: 'c', color: '', correct: false }
-      ]
+      listOptionsSubjects: []
     }
   },
   methods: {
@@ -88,6 +75,14 @@ export default {
         this.$router.push({ path: `/question/begin?${this.mountQuery(this.subjectSelect)}` })
         this.begin = true
       }
+    },
+    async getSubject () {
+      let response = await SubjectsService.fetch('')
+      let finalArr = []
+      response.data.forEach(obj => {
+        finalArr.push({ label: obj.name, value: obj.id })
+      })
+      this.listOptionsSubjects = finalArr
     },
     mountQuery (arr) {
       let response = ``
@@ -101,6 +96,9 @@ export default {
     subjectSelect (newVal) {
       if (newVal.length === 0) this.begin = false
     }
+  },
+  mounted () {
+    this.getSubject()
   }
 }
 </script>
