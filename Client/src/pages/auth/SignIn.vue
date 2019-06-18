@@ -30,7 +30,10 @@
               ]"
             />
 
-          <div>
+          <div class="col-12 col-sm-12 q-pb-md">
+            <q-btn to="/auth/signUp" class="float-right" color="primary" outline size="sm">{{ $t('menu.signUp') }}</q-btn>
+          </div>
+          <div class="col-12 col-sm-12 q-pt-md">
             <q-btn :label="$t('reset')" type="reset" color="primary" flat class="q-ml-sm" />
             <q-btn :label="$t('submit')" type="submit" color="primary" class="float-right"/>
           </div>
