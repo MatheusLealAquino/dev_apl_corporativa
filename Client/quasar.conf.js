@@ -2,8 +2,8 @@
 
 module.exports = function (ctx) {
   return {
-    // app plugins (/src/plugins)
-    plugins: [
+    // app plugins (/src/boot)
+    boot: [
       'i18n',
       'axios'
     ],
@@ -11,11 +11,11 @@ module.exports = function (ctx) {
       'app.styl'
     ],
     extras: [
-      ctx.theme.mat ? 'roboto-font' : null,
+      'roboto-font',
       'material-icons' // optional, you are not bound to it
-      // 'ionicons',
-      // 'mdi',
-      // 'fontawesome'
+      // 'ionicons-v4',
+      // 'mdi-v3',
+      // 'fontawesome-v5'
     ],
     supportIE: false,
     build: {
@@ -42,30 +42,48 @@ module.exports = function (ctx) {
     // framework: 'all' --- includes everything; for dev only!
     framework: {
       components: [
-        'QLayout',
-        'QLayoutHeader',
-        'QLayoutDrawer',
-        'QPageContainer',
         'QPage',
+        'QLayout',
+        'QHeader',
+        'QDrawer',
+        'QPageContainer',
         'QToolbar',
         'QToolbarTitle',
         'QBtn',
         'QIcon',
         'QList',
-        'QListHeader',
         'QItem',
-        'QItemMain',
-        'QItemSide'
+        'QBtnGroup',
+        'QSelect',
+        'QCheckbox',
+        'QBtnToggle',
+        'QOptionGroup',
+        'QRadio',
+        'QPagination',
+        'QItemSection',
+        'QItemLabel',
+        'QBtnGroup',
+        'QExpansionItem',
+        'QDialog',
+        'QCard',
+        'QCardSection',
+        'QCardActions',
+        'QCircularProgress',
+        'QForm',
+        'QInput',
+        'QBanner',
+        'QOptionGroup'
       ],
       directives: [
-        'Ripple'
+        'ClosePopup'
       ],
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify',
+        'LocalStorage'
       ]
-      // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
-      // i18n: 'de' // Quasar language
+      // iconSet: 'ionicons-v4'
+      // lang: 'de' // Quasar language
     },
     // animations: 'all' --- includes all animations
     animations: [],

@@ -1,11 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-layout-header>
-      <q-toolbar
-        color="primary"
-        :glossy="$q.theme === 'mat'"
-        :inverted="$q.theme === 'ios'"
-      >
+    <q-header class="bg-white text-blue">
+      <q-toolbar>
         <q-btn
           flat
           dense
@@ -19,12 +15,23 @@
 
         <q-toolbar-title>
           Stud Freemium
-          <div slot="subtitle">v0.0.1</div>
         </q-toolbar-title>
-      </q-toolbar>
-    </q-layout-header>
 
-    <q-layout-drawer
+        <q-btn-group flat v-if="$q.platform.is.desktop">
+          <q-btn to="/">{{ $t('menu.home') }}</q-btn>
+          <div v-if="userLogged">
+            <q-btn to="/setting" flat>{{ $t('menu.setting') }}</q-btn>
+            <q-btn flat @click="makeLogout">{{ $t('menu.logout') }}</q-btn>
+          </div>
+          <div v-if="!userLogged">
+            <q-btn to="/auth/signIn" flat>{{ $t('menu.signIn') }}</q-btn>
+            <q-btn to="/auth/signUp" flat>{{ $t('menu.signUp') }}</q-btn>
+          </div>
+        </q-btn-group>
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer
       v-model="leftDrawerOpen"
       v-if="$q.platform.is.mobile"
       :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
@@ -34,31 +41,23 @@
         link
         inset-delimiter
       >
-        <q-list-header>Essential Links</q-list-header>
-        <q-item @click.native="openURL('http://quasar-framework.org')">
-          <q-item-side icon="school" />
-          <q-item-main label="Docs" sublabel="quasar-framework.org" />
+        <q-item to='/'>
+          <q-item-section avatar>
+            <q-icon name="home" />
+          </q-item-section>
+          <q-item-section>{{$t('menu.home')}}</q-item-section>
         </q-item>
-        <q-item @click.native="openURL('https://github.com/quasarframework/')">
-          <q-item-side icon="code" />
-          <q-item-main label="GitHub" sublabel="github.com/quasarframework" />
-        </q-item>
-        <q-item @click.native="openURL('https://discord.gg/5TDhbDg')">
-          <q-item-side icon="chat" />
-          <q-item-main label="Discord Chat Channel" sublabel="https://discord.gg/5TDhbDg" />
-        </q-item>
-        <q-item @click.native="openURL('http://forum.quasar-framework.org')">
-          <q-item-side icon="record_voice_over" />
-          <q-item-main label="Forum" sublabel="forum.quasar-framework.org" />
-        </q-item>
-        <q-item @click.native="openURL('https://twitter.com/quasarframework')">
-          <q-item-side icon="rss feed" />
-          <q-item-main label="Twitter" sublabel="@quasarframework" />
+        <q-item to='/setting'>
+          <q-item-section avatar>
+            <q-icon name="settings" />
+          </q-item-section>
+          <q-item-section>{{$t('menu.setting')}}</q-item-section>
         </q-item>
       </q-list>
-    </q-layout-drawer>
+    </q-drawer>
 
     <q-page-container>
+      <hr>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -68,14 +67,41 @@
 import { openURL } from 'quasar'
 
 export default {
-  name: 'MyLayout',
+  name: 'Header',
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      leftDrawerOpen: false,
+      finishRequest: false
+    }
+  },
+  computed: {
+    userLogged: {
+      get () {
+        return this.$store.getters['user/isLogged']
+      }
     }
   },
   methods: {
-    openURL
+    openURL,
+    makeLogout () {
+      this.finishRequest = false
+      this.$store.dispatch('user/logout')
+      this.$q.notify({
+        color: 'green-4',
+        textColor: 'white',
+        icon: 'fas fa-check-circle',
+        message: this.$t('auth.logoutDone')
+      })
+      this.finishRequest = true
+    }
+  },
+  watch: {
+    userLogged (newVal) {
+      if (!newVal && this.finishRequest) this.$router.push('/')
+    },
+    finishRequest (newVal) {
+      if (newVal && !this.userLogged) this.$router.push('/')
+    }
   }
 }
 </script>

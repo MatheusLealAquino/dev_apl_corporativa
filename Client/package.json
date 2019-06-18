@@ -11,8 +11,12 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "vue-i18n": "^7.3.3"
+    "@quasar/app": "^1.0.0-rc.6",
+    "@quasar/extras": "^1.1.2",
+    "axios": "^0.19.0",
+    "quasar": "^1.0.0-rc.4",
+    "vue-i18n": "^7.3.3",
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
     "@vue/eslint-config-standard": "^4.0.0",
@@ -20,7 +24,6 @@
     "eslint": "^5.10.0",
     "eslint-loader": "^2.1.1",
     "eslint-plugin-vue": "^5.0.0",
-    "quasar-cli": "^0.17.0",
     "strip-ansi": "=3.0.1"
   },
   "engines": {
