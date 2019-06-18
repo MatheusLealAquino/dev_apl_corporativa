@@ -1,8 +1,10 @@
 <template>
   <q-page>
     <div class="row q-pa-md justify-center">
-      <h4>Realizar Login</h4>
-      <div class="col-md-12">
+      <div class="col-12 col-sm-12 text-center">
+        <h4>Realizar Login</h4>
+      </div>
+      <div class="col-sm-12 col-12">
         <q-form
           @submit="onSubmit"
           @reset="onReset"
@@ -98,6 +100,9 @@ export default {
     }
   },
   watch: {
+    alreadyLogged (newVal) {
+      if (newVal && this.finishRequest) this.$router.push('/')
+    },
     finishRequest (newVal) {
       if (newVal && this.alreadyLogged) this.$router.push('/')
     }

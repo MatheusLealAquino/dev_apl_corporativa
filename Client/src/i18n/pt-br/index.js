@@ -16,7 +16,7 @@ export default {
   explanation: 'Explicação',
   answer: 'Responder',
   submit: 'Enviar',
-  reset: 'Resetar',
+  reset: 'Limpar formulário',
   seeAnswer: 'Ver Resposta',
   settings: {
     advancedSetting: 'Configurações Avançadas',
@@ -30,7 +30,8 @@ export default {
     setting: 'Configurações',
     logout: 'Sair',
     signIn: 'Login',
-    signUp: 'Cadastre-se'
+    signUp: 'Cadastre-se',
+    create: 'Criar questão'
   },
   auth: {
     labelName: 'Seu Nome *',
@@ -43,9 +44,17 @@ export default {
     messageFailSignIn: 'Login não foi realizado!',
     logoutDone: 'Logout realizado com sucesso!'
   },
+  createQuestion: {
+    labelTitle: 'Digite o título da questão *',
+    labelSubtitle: 'Digite sobre a pergunta',
+    labelOption: 'Digite uma opção *',
+    messageSuccessCreate: 'Pergunta criada com sucesso!',
+    messageFailCreate: 'Não foi possível criar a pergunta!'
+  },
   question: {
     singular: 'Questão',
-    plural: 'Questões'
+    plural: 'Questões',
+    create: 'Criar Questão'
   },
   tender: {
     singular: 'Concurso',
