@@ -46,7 +46,10 @@ export default {
   },
   createQuestion: {
     labelTitle: 'Digite o título da questão *',
-    labelSubtitle: 'Digite sobre a pergunta'
+    labelSubtitle: 'Digite sobre a pergunta',
+    labelOption: 'Digite uma opção *',
+    messageSuccessCreate: 'Pergunta criada com sucesso!',
+    messageFailCreate: 'Não foi possível criar a pergunta!'
   },
   question: {
     singular: 'Questão',

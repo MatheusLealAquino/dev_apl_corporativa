@@ -71,7 +71,8 @@ module.exports = function (ctx) {
         'QCircularProgress',
         'QForm',
         'QInput',
-        'QBanner'
+        'QBanner',
+        'QOptionGroup'
       ],
       directives: [
         'ClosePopup'
