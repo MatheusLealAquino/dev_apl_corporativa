@@ -31,9 +31,9 @@
                     <div class="col-md-11">
                       <q-item-label :color="option.color" title>{{option.label}}</q-item-label>
                     </div>
-                    <!--<div class="col-md-1" v-if="option.explanation && answered">
+                    <div class="col-md-1" v-if="option.explanation && answered">
                       <q-btn flat icon="info" @click="showModalInfo(option)"/>
-                    </div>-->
+                    </div>
                   </div>
                 </q-item-section>
               </q-item>
@@ -234,6 +234,7 @@ export default {
           subjects: types,
           professor: this.professors,
           year: this.year,
+          userId: parseInt(this.$store.state.user.id),
           limit: 1
         })
         this.answerSelected = ''
@@ -243,16 +244,26 @@ export default {
         let alreadyAnswer = false
         this.questionsAnswered.forEach(question => {
           if (parseInt(question.questionId) === parseInt(this.id)) {
-            this.finishProof()
             alreadyAnswer = true
           }
         })
-        if (alreadyAnswer) return
+        if (alreadyAnswer || response.data.length === 0) {
+          this.finishProof()
+          return
+        }
         response = await FullQuestionsService.fetch(`${response.data[0].externalId}`)
         this.title = response.data.title
         this.subTitle = response.data.subTitle
         this.correctOption = response.data.correctOption
-        this.options = response.data.options
+        // this.options = response.data.options
+        this.options = []
+        response.data.options.forEach(option => {
+          this.options.push({
+            label: option.label,
+            value: option.value,
+            color: ''
+          })
+        })
       } catch (err) {
         // show notify message when can't get next question
         this.$q.notify({ type: 'info', message: this.$t('alert.cantGetQuestion'), position: 'center', closeBtn: this.$t('close') })
