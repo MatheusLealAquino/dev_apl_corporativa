@@ -17,22 +17,23 @@
             />
           </div>
           <div class="text-center">
-            <h4 class="caption">{{title}}</h4>
+            <h5 class="caption">{{title}}</h5>
+            <p class="caption">{{subTitle}}</p>
           </div>
           <div class="q-pb-md text-center">
-            <q-list link v-for="option in options" v-bind:key="option.id">
+            <q-list link v-for="option in options" v-bind:key="option.value">
               <q-item tag="label">
                 <q-item-section avatar>
-                  <q-radio :disable="answered" :color="option.color" v-model="answerSelected" :val="option.id" />
+                  <q-radio :disable="answered" :color="option.color" v-model="answerSelected" :val="option.value" />
                 </q-item-section>
                 <q-item-section>
                   <div class="row">
                     <div class="col-md-11">
                       <q-item-label :color="option.color" title>{{option.label}}</q-item-label>
                     </div>
-                    <div class="col-md-1" v-if="option.explanation && answered">
+                    <!--<div class="col-md-1" v-if="option.explanation && answered">
                       <q-btn flat icon="info" @click="showModalInfo(option)"/>
-                    </div>
+                    </div>-->
                   </div>
                 </q-item-section>
               </q-item>
@@ -103,7 +104,7 @@
 </style>
 
 <script>
-import { AnswersService, QuestionsService } from '../../resource'
+import { AnswersService, QuestionsService, FullQuestionsService } from '../../resource'
 
 export default {
   name: 'QuestionSubject',
@@ -137,26 +138,23 @@ export default {
       optionSelected: {},
       // Id of option selected
       answerSelected: '',
-      numberQuestion: '1',
 
       // Question info
-      id: '',
-      title: 'Pergunta 1',
+      id: null,
+      title: null,
+      subTitle: null,
+      correctOption: null,
       // When is associated to predeterminated list and have year
-      options: [
-        { id: 1, label: 'a) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore .', value: 'a', color: '', correct: true, explanation: 'Acertou mizeravi!' },
-        { id: 2, label: 'b) Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum a.', value: 'b', color: '', correct: false, explanation: 'Tu é burro hein...' },
-        { id: 3, label: 'c) Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat .', value: 'c', color: '', correct: false, explanation: 'Passou longe dessa vez...' }
-      ]
+      options: []
     }
   },
   methods: {
     seeAnswer () {
       if (this.answerSelected) {
         this.options.forEach(option => {
-          if (option.correct) {
+          if (parseInt(option.value) === parseInt(this.correctOption)) {
             option.color = 'green'
-            if (option.id === this.answerSelected) this.questionsCorrect++
+            if (parseInt(option.value) === parseInt(this.answerSelected)) this.questionsCorrect++
           } else {
             option.color = 'negative'
           }
@@ -186,10 +184,11 @@ export default {
     },
     decrementTimeQuestion () {
       if (this.timeForQuestion === 0) {
-        // this.seeAnswer()
         this.timeForQuestion = this.initialTime
         this.getNext()
-      } else this.timeForQuestion--
+      } else {
+        this.timeForQuestion--
+      }
     },
     incrementTime () {
       this.initialTime++
@@ -220,7 +219,45 @@ export default {
         // chamar a cada 1 segundo (10000 ms)
         this.interval = setInterval(this.decrementTimeQuestion, 1000)
       }
-      this.id = '1'
+      this.getQuestion()
+    },
+    async getQuestion () {
+      try {
+        let types = `[`
+        let totalTypes = this.types.length
+        this.types.forEach((type, index) => {
+          if (index === totalTypes - 1) types += `${type}`
+          else types += `${type},`
+        })
+        types += ']'
+        let response = await QuestionsService.fetch('query', {
+          subjects: types,
+          professor: this.professors,
+          year: this.year,
+          limit: 1
+        })
+        this.answerSelected = ''
+        this.answered = false
+
+        this.id = response.data[0].id
+        let alreadyAnswer = false
+        this.questionsAnswered.forEach(question => {
+          if (parseInt(question.questionId) === parseInt(this.id)) {
+            this.finishProof()
+            alreadyAnswer = true
+          }
+        })
+        if (alreadyAnswer) return
+        response = await FullQuestionsService.fetch(`${response.data[0].externalId}`)
+        this.title = response.data.title
+        this.subTitle = response.data.subTitle
+        this.correctOption = response.data.correctOption
+        this.options = response.data.options
+      } catch (err) {
+        // show notify message when can't get next question
+        this.$q.notify({ type: 'info', message: this.$t('alert.cantGetQuestion'), position: 'center', closeBtn: this.$t('close') })
+        this.finishProof()
+      }
     },
     showModalInfo (selected) {
       this.showInfo = !this.showInfo
@@ -232,34 +269,16 @@ export default {
     },
     async getNext () {
       if (this.answerSelected) {
-        AnswersService.create('', {
-          'optionExternalId': this.answerSelected,
-          'customUserId': 0,
-          'questionId': this.id
-        })
-      }
-      this.numberQuestion++
-      try {
-        let response = await QuestionsService.fetch('query', {
-          subject: this.types,
-          professor: this.professors,
-          year: this.year,
-          repeated: false,
-          limit: 1
-        })
-
-        this.answerSelected = ''
-        this.answered = false
-        this.questionIndex.new++
-
-        this.id = response.data.id
-        this.title = response.data.title
-        this.options = response.data.options
-      } catch (err) {
-        console.error(err)
-        // show notify message when can't get next question
-        this.$q.notify({ type: 'info', message: this.$t('alert.cantGetQuestion'), position: 'center', closeBtn: this.$t('close') })
-        this.finishProof()
+        try {
+          AnswersService.create('', {
+            optionExternalId: this.answerSelected,
+            customUserId: this.$store.state.user.id,
+            questionId: this.id
+          })
+        } catch (err) {
+          console.err(err)
+        }
+        this.getQuestion()
       }
     }
   },
