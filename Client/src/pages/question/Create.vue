@@ -119,7 +119,7 @@ export default {
             color: 'red-5',
             textColor: 'white',
             icon: 'fas fa-exclamation-triangle',
-            message: `${this.$t('auth.messageFailSignIn')}`
+            message: `${this.$t('createQuestion.messageFailCreate')}`
           })
         }
       } else {
