@@ -16,7 +16,7 @@ export default {
   explanation: 'Explicação',
   answer: 'Responder',
   submit: 'Enviar',
-  reset: 'Resetar',
+  reset: 'Limpar formulário',
   seeAnswer: 'Ver Resposta',
   settings: {
     advancedSetting: 'Configurações Avançadas',
