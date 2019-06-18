@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from './routes'
+import Store from '../store'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,23 @@ export default function (/* { store, ssrContext } */) {
     base: process.env.VUE_ROUTER_BASE
   })
 
-  // console.log(localStorage.getItem('access_token'))
+  Router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      // this route requires auth, check if logged in
+      // if not, redirect to login page.
+      if (Store().getters['user/isLogged']) {
+        if (to.path === 'auth/login') {
+          next('')
+        } else {
+          next()
+        }
+      } else {
+        next('/auth/signIn')
+      }
+    } else {
+      next()
+    }
+  })
+
   return Router
 }
