@@ -4,7 +4,7 @@
       <div class="col-12 col-sm-12 text-center">
         <h4>Cadastrar Questão</h4>
       </div>
-      <div class="col-sm-12 col-12" v-if="!id">
+      <div class="col-sm-12 col-12">
         <q-form
           @submit="onSubmit"
           @reset="onReset"
@@ -52,9 +52,18 @@
             color="green"
           />
 
+          <q-select
+            v-model="question.subjects"
+            v-if="subjectsAll.length >= 1"
+            multiple
+            :options="subjectsAll"
+            use-chips
+            stack-label
+            :label="$t('subject.plural')"
+          />
           <div>
             <q-btn :label="$t('reset')" type="reset" color="primary" flat class="q-ml-sm" />
-            <q-btn :label="$t('submit')" :disable="question.options.length < 4" type="submit" color="primary" class="float-right"/>
+            <q-btn :label="$t('submit')" :disable="question.options.length < 4 && question.subjects.length < 1" type="submit" color="primary" class="float-right"/>
           </div>
         </q-form>
       </div>
@@ -67,7 +76,7 @@
 </style>
 
 <script>
-import { QuestionsService } from '../../resource'
+import { QuestionsService, SubjectsService } from '../../resource'
 
 export default {
   name: 'CreateQuestion',
@@ -78,8 +87,10 @@ export default {
         title: null,
         subTitle: null,
         correctOption: null,
-        options: []
+        options: [],
+        subjects: []
       },
+      subjectsAll: [],
       option: null
     }
   },
@@ -105,7 +116,10 @@ export default {
           let response = await QuestionsService.create('', {
             fullQuestion: this.question
           })
-          this.id = response.id
+          this.id = response.data.id
+          this.question.subjects.forEach(async subject => {
+            await QuestionsService.update(`${this.id}/subjects/rel/${subject.value}`)
+          })
           dismiss()
           this.$q.notify({
             color: 'green-4',
@@ -113,6 +127,7 @@ export default {
             icon: 'fas fa-check-circle',
             message: this.$t('createQuestion.messageSuccessCreate')
           })
+          this.onReset()
         } catch (err) {
           dismiss()
           this.$q.notify({
@@ -131,6 +146,14 @@ export default {
         })
       }
     },
+    async getSubject () {
+      let response = await SubjectsService.fetch('')
+      let finalArr = []
+      response.data.forEach(obj => {
+        finalArr.push({ label: obj.name, value: obj.id })
+      })
+      this.subjectsAll = finalArr
+    },
     capitalizeFirstLetter (string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
     },
@@ -139,6 +162,7 @@ export default {
       this.question.subTitle = null
       this.question.correctOption = null
       this.question.options = []
+      this.question.subjects = []
     },
     addOption () {
       if (!this.question.option) {
@@ -153,6 +177,9 @@ export default {
       this.question.options.push({ label: this.capitalizeFirstLetter(this.question.option), value: `${this.question.options.length + 1}` })
       this.question.option = null
     }
+  },
+  mounted () {
+    this.getSubject()
   }
 }
 </script>
